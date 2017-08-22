@@ -6,30 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.codepath.simpletodo.ToDoActivity">
 
-    <ListView
-        android:id="@+id/lvItems"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:layout_above="@id/btnAddItem"
-        tools:layout_parentTop="true"
-        tools:layout_parentLeft="true"
-        tools:layout_parentStart="true"/>
-
-
-    <EditText
-        android:id="@+id/etNewItem"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:layout_alignTop="@id/btnAddItem"
-        android:layout_marginRight="8dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Enter a new list item"
-        tools:layout_parentLeft="true"
-        tools:layout_parentStart="true"
-        tools:layout_toLeftOf="@id/btnAddItem"
-        tools:layout_toStartOf="@id/btnAddItem" />
-
     <Button
         android:id="@+id/btnAddItem"
         android:layout_width="wrap_content"
@@ -39,5 +15,27 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:onClick="onAddItem"/>
+
+    <ListView
+        android:id="@+id/lvItems"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btnAddItem"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+
+    <EditText
+        android:id="@+id/etNewItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/btnAddItem"
+        android:inputType="textPersonName"
+        android:hint="Enter a new list item"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@id/btnAddItem"
+        android:layout_toStartOf="@id/btnAddItem"
+        android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>
