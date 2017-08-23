@@ -5,6 +5,5 @@ package com.codepath.simpletodo;
  */
 
 public class Constants {
-    public static final String ITEM_TEXT = "itemText";
-    public static final String ITEM_POS = "itemPos";
+    public static final String TODO_ITEM = "todoItem";
 }

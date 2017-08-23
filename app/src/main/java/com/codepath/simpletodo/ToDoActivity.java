@@ -2,62 +2,93 @@ package com.codepath.simpletodo;
 
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import org.apache.commons.io.FileUtils;
+import com.facebook.stetho.Stetho;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-import static android.R.attr.name;
-import static java.util.Collections.addAll;
+import static android.R.attr.priority;
+import static com.codepath.simpletodo.R.id.etNewItem;
+import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 
-// Question for instructors - Why do we have to notifyDataSetChanged on remove, but not on add?
-public class ToDoActivity extends AppCompatActivity {
+public class TodoActivity extends AppCompatActivity {
 
-    private ArrayList<String> items;
-    private ArrayAdapter<String> itemsAdapter;
+    TodoDatabaseHelper dbHelper;
+    private Cursor todoCursor;
+    private TodoCursorAdapter todoAdapter;
+
     ListView lvItems;
     private static final int EDIT_REQUEST_CODE = 20;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_to_do);
-
+        
+        dbHelper = TodoDatabaseHelper.getInstance(this);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        todoCursor = cupboard().withDatabase(db).query(TodoItem.class).getCursor();
+        todoAdapter = new TodoCursorAdapter(this, todoCursor);
         lvItems = (ListView) findViewById(R.id.lvItems);
-        items = new ArrayList<>();
-        readItems();
-        itemsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
-        lvItems.setAdapter(itemsAdapter);
+        lvItems.setAdapter(todoAdapter);
+
         setupListViewListeners();
     }
 
+    public void addEditItem(TodoItem item) {
+        dbHelper.addUpdate(item);
+        todoCursor = dbHelper.getTodoCursor();
+        todoAdapter.changeCursor(todoCursor);
+    }
+
+    public void removeItem(Cursor cursor) {
+        TodoItem item = cupboard().withCursor(cursor).get(TodoItem.class);
+        dbHelper.delete(item);
+        todoCursor = dbHelper.getTodoCursor();
+        todoAdapter.changeCursor(todoCursor);
+    }
+
     public void onAddItem(View v) {
-        EditText etNewItem = (EditText) findViewById((R.id.etNewItem));
-        String itemText = etNewItem.getText().toString();
-        //items.add(itemText);
-        itemsAdapter.add(itemText);
-        etNewItem.setText("");
-        writeItems();
+        EditText etItem = (EditText) findViewById((R.id.etNewItem));
+        int priority = 3;
+        String itemText = etItem.getText().toString();
+        if (!etItem.getText().toString().isEmpty()) {
+            TodoItem item = new TodoItem(itemText, priority, Utils.dateToLong(new Date()));
+            addEditItem(item);
+            etItem.setText("");
+        }
+        else {
+            displayError();
+        }
+    }
+
+    public void displayError() {
+        Toast.makeText(this, "Todo cannot be blank.", Toast.LENGTH_SHORT).show();
+
     }
 
     private void setupListViewListeners() {
         lvItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapter, View item, int pos, long id) {
-                items.remove(pos);
-                itemsAdapter.notifyDataSetChanged();
-                writeItems();
+                try {
+                    Cursor cursor = (Cursor) todoAdapter.getItem(pos);
+                    removeItem(cursor);
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
                 return true;
             }
         });
@@ -66,9 +97,12 @@ public class ToDoActivity extends AppCompatActivity {
 
             @Override
             public void onItemClick(AdapterView<?> adapter, View item, int pos, long kd) {
-                Intent i = new Intent(ToDoActivity.this, EditItemActivity.class);
-                i.putExtra(Constants.ITEM_TEXT, items.get(pos));
-                i.putExtra(Constants.ITEM_POS, pos);
+                Cursor cursor = (Cursor) todoAdapter.getItem(pos);
+                TodoItem todoItem = cupboard().withCursor(cursor).get(TodoItem.class);
+
+                Intent i = new Intent(TodoActivity.this, EditItemActivity.class);
+
+                i.putExtra(Constants.TODO_ITEM, todoItem);
                 startActivityForResult(i, EDIT_REQUEST_CODE);
             }
         });
@@ -77,33 +111,8 @@ public class ToDoActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && requestCode == EDIT_REQUEST_CODE) {
-            String itemText = data.getExtras().getString(Constants.ITEM_TEXT);
-            int itemPos = data.getExtras().getInt(Constants.ITEM_POS, 0);
-            Toast.makeText(this, itemText, Toast.LENGTH_SHORT).show();
-
-            items.set(itemPos, itemText);
-            itemsAdapter.notifyDataSetChanged();
-            writeItems();
-        }
-    }
-
-    private void readItems() {
-        File filesDir = getFilesDir();
-        File todoFile = new File(filesDir, "todo.txt");
-        try {
-            items = new ArrayList<String>(FileUtils.readLines(todoFile));
-        } catch (IOException e) {
-            items = new ArrayList<String>();
-        }
-    }
-
-    private void writeItems() {
-        File filesDir = getFilesDir();
-        File todoFile = new File(filesDir, "todo.txt");
-        try {
-            FileUtils.writeLines(todoFile, items);
-        } catch (IOException e) {
-            e.printStackTrace();
+            TodoItem todoItem = data.getExtras().getParcelable(Constants.TODO_ITEM);
+            addEditItem(todoItem);
         }
     }
 }
