@@ -17,7 +17,7 @@ The following **required** functionality is completed:
 The following **optional** features are implemented:
 
 * [X] Persist the todo items [into SQLite](http://guides.codepath.com/android/Persisting-Data-to-the-Device#sqlite) instead of a text file
-* [ ] Improve style of the todo items in the list [using a custom adapter](http://guides.codepath.com/android/Using-an-ArrayAdapter-with-ListView)
+* [X] Improve style of the todo items in the list [using a custom adapter](http://guides.codepath.com/android/Using-an-ArrayAdapter-with-ListView)
 * [X] Add support for completion due dates for todo items (and display within listview item)
 * [ ] Use a [DialogFragment](http://guides.codepath.com/android/Using-DialogFragment) instead of new Activity for editing items
 * [X] Add support for selecting the priority of each todo item (and display in listview item)
@@ -25,7 +25,9 @@ The following **optional** features are implemented:
 
 The following **additional** features are implemented:
 
-* [ ] List anything else that you can get done to improve the app functionality!
+* [X] List anything else that you can get done to improve the app functionality!
+
+I used cupboard to interface with Sqlite in a clean, simple way.  I also used a CalendarView widget.  I added a little validation such that one cannot enter an empty todo item. For troubleshooting purposes, I used Stetho to inspect my Sqlite db (Resources -> Web SQL).
 
 ## Video Walkthrough
 
@@ -52,6 +54,8 @@ As part of your pre-work submission, please reflect on the app and answer the fo
 Describe any challenges encountered while building the app.
 
 Out of the box Android Studio gave me a ConstraintLayout and it made a very brittle layout of the items I dragged onto the screen.  I do not trust the layout designer in the Studio and prefer to use the text perspective.  Often, the design view shows the components laid out one way while in the emulator, the components display in a different way.  After a little troubleshooting, I found that the button component had to be defined prior to the other layout components that reference it.
+
+I used cupboard to interface with Sqlite and I was not sure if it is expensive or correct to get a new cursor every time the db is changed and switch it out in the adapter.  This worked but I was not sure this is the correct methodology.
 
 ## License
 
