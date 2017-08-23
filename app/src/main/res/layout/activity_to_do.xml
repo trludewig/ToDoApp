@@ -6,36 +6,33 @@
     android:layout_height="match_parent"
     tools:context="com.codepath.simpletodo.TodoActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/main_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
     <Button
         android:id="@+id/btnAddItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add Item"
+        android:text="@string/add_item"
+        android:onClick="onAddItem"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:onClick="onAddItem"/>
+        android:layout_centerHorizontal="true" />
 
     <ListView
         android:id="@+id/lvItems"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:layout_below="@id/main_toolbar"
         android:layout_above="@id/btnAddItem"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"/>
-
-    <EditText
-        android:id="@+id/etNewItem"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@id/btnAddItem"
-        android:inputType="textPersonName"
-        android:hint="Enter a new list item"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@id/btnAddItem"
-        android:layout_toStartOf="@id/btnAddItem"
-        android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>

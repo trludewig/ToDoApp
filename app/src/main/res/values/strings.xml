@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">SimpleTodo</string>
+    <string name="save">Save</string>
+    <string name="edit_item_below">Edit Item Below:</string>
+    <string name="add_item">Add Item</string>
+    <string name="priority">Priority:</string>
+    <string name="due_date">Due Date:</string>
+    <string name="priority_colon">Priority:</string>
 </resources>

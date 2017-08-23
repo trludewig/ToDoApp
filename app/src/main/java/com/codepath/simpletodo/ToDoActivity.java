@@ -6,19 +6,15 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.facebook.stetho.Stetho;
-
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static android.R.attr.priority;
-import static com.codepath.simpletodo.R.id.etNewItem;
 import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 
 public class TodoActivity extends AppCompatActivity {
@@ -28,14 +24,16 @@ public class TodoActivity extends AppCompatActivity {
     private TodoCursorAdapter todoAdapter;
 
     ListView lvItems;
-    private static final int EDIT_REQUEST_CODE = 20;
-
+    private static final int REQUEST_CODE = 20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_to_do);
-        
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        setSupportActionBar(toolbar);
+
         dbHelper = TodoDatabaseHelper.getInstance(this);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         todoCursor = cupboard().withDatabase(db).query(TodoItem.class).getCursor();
@@ -60,17 +58,10 @@ public class TodoActivity extends AppCompatActivity {
     }
 
     public void onAddItem(View v) {
-        EditText etItem = (EditText) findViewById((R.id.etNewItem));
-        int priority = 3;
-        String itemText = etItem.getText().toString();
-        if (!etItem.getText().toString().isEmpty()) {
-            TodoItem item = new TodoItem(itemText, priority, Utils.dateToLong(new Date()));
-            addEditItem(item);
-            etItem.setText("");
-        }
-        else {
-            displayError();
-        }
+        Intent i = new Intent(TodoActivity.this, AddEditItemActivity.class);
+
+        i.putExtra(Constants.MODE, Constants.ADD);
+        startActivityForResult(i, REQUEST_CODE);
     }
 
     public void displayError() {
@@ -100,17 +91,18 @@ public class TodoActivity extends AppCompatActivity {
                 Cursor cursor = (Cursor) todoAdapter.getItem(pos);
                 TodoItem todoItem = cupboard().withCursor(cursor).get(TodoItem.class);
 
-                Intent i = new Intent(TodoActivity.this, EditItemActivity.class);
+                Intent i = new Intent(TodoActivity.this, AddEditItemActivity.class);
 
                 i.putExtra(Constants.TODO_ITEM, todoItem);
-                startActivityForResult(i, EDIT_REQUEST_CODE);
+                i.putExtra(Constants.MODE, Constants.EDIT);
+                startActivityForResult(i, REQUEST_CODE);
             }
         });
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK && requestCode == EDIT_REQUEST_CODE) {
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
             TodoItem todoItem = data.getExtras().getParcelable(Constants.TODO_ITEM);
             addEditItem(todoItem);
         }

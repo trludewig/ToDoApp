@@ -14,9 +14,9 @@ public class TodoItem implements Parcelable {
     private Long _id; // for cupboard
     private String body;
     private int priority;
-    private long duedate;
+    private String duedate;
 
-    public TodoItem(String body, int priority, long duedate) {
+    public TodoItem(String body, int priority, String duedate) {
         this.body = body;
         this.priority = priority;
         this.duedate = duedate;
@@ -41,11 +41,11 @@ public class TodoItem implements Parcelable {
         this.priority = priority;
     }
 
-    public long getDuedate() {
+    public String getDuedate() {
         return duedate;
     }
 
-    public void setDuedate(long duedate) {
+    public void setDuedate(String duedate) {
         this.duedate = duedate;
     }
 
@@ -54,10 +54,12 @@ public class TodoItem implements Parcelable {
     }
 
     public void writeToParcel(Parcel out, int flags) {
-        out.writeLong(_id);
         out.writeString(body);
         out.writeInt(priority);
-        out.writeLong(duedate);
+        out.writeString(duedate);
+        if (_id != null) {
+            out.writeLong(_id);
+        }
     }
 
     public static final Parcelable.Creator<TodoItem> CREATOR
@@ -72,9 +74,9 @@ public class TodoItem implements Parcelable {
     };
 
     private TodoItem(Parcel in) {
-        _id = in.readLong();
         body = in.readString();
         priority = in.readInt();
-        duedate = in.readLong();
+        duedate = in.readString();
+        _id = in.readLong();
     }
 }

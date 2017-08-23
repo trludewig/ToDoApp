@@ -35,16 +35,15 @@ public class TodoCursorAdapter extends CursorAdapter {
         // Find fields to populate in inflated template
         TextView tvBody = (TextView) view.findViewById(R.id.tvBody);
         TextView tvPriority = (TextView) view.findViewById(R.id.tvPriority);
-        TextView tvDate = (TextView) view.findViewById(R.id.tvDate);
+        TextView tvDate = (TextView) view.findViewById(R.id.tvDuedate);
         // Extract properties from cursor
         String body = cursor.getString(cursor.getColumnIndexOrThrow("body"));
         int priority = cursor.getInt(cursor.getColumnIndexOrThrow("priority"));
-        long lDate = cursor.getLong(cursor.getColumnIndexOrThrow("duedate"));
-        //String dateString = Utils.getDateForDisplay(dLong);
+        String sDate = cursor.getString(cursor.getColumnIndexOrThrow("duedate"));
         // Populate fields with extracted properties
         tvBody.setText(body);
         tvPriority.setText(String.valueOf(priority));
-        tvDate.setText(Utils.getDateForDisplay(lDate));
+        tvDate.setText(sDate);
     }
 
 
