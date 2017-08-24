@@ -1,4 +1,4 @@
-package com.codepath.simpletodo;
+package com.codepath.simpletodo.activities;
 
 
 import android.content.Intent;
@@ -9,12 +9,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.util.Date;
+import com.codepath.simpletodo.util.Constants;
+import com.codepath.simpletodo.R;
+import com.codepath.simpletodo.adapters.TodoCursorAdapter;
+import com.codepath.simpletodo.model.TodoDatabaseHelper;
+import com.codepath.simpletodo.model.TodoItem;
 
+import static android.R.attr.mode;
 import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 
 public class TodoActivity extends AppCompatActivity {
@@ -25,6 +29,7 @@ public class TodoActivity extends AppCompatActivity {
 
     ListView lvItems;
     private static final int REQUEST_CODE = 20;
+    int mode = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +66,7 @@ public class TodoActivity extends AppCompatActivity {
         Intent i = new Intent(TodoActivity.this, AddEditItemActivity.class);
 
         i.putExtra(Constants.MODE, Constants.ADD);
+        mode = Constants.ADD;
         startActivityForResult(i, REQUEST_CODE);
     }
 
@@ -104,6 +110,9 @@ public class TodoActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
             TodoItem todoItem = data.getExtras().getParcelable(Constants.TODO_ITEM);
+            if (mode == Constants.ADD) {
+                todoItem.clearId();
+            }
             addEditItem(todoItem);
         }
     }

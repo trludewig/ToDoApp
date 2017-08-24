@@ -1,4 +1,4 @@
-package com.codepath.simpletodo;
+package com.codepath.simpletodo.model;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

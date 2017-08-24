@@ -1,10 +1,8 @@
-package com.codepath.simpletodo;
+package com.codepath.simpletodo.model;
 
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import java.util.Date;
 
 /**
  * Created by tludewig on 8/21/17.
@@ -51,6 +49,10 @@ public class TodoItem implements Parcelable {
 
     public int describeContents() {
         return 0;
+    }
+
+    public void clearId() {
+        _id = null;
     }
 
     public void writeToParcel(Parcel out, int flags) {

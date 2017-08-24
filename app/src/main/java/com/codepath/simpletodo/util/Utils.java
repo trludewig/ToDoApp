@@ -1,9 +1,11 @@
-package com.codepath.simpletodo;
+package com.codepath.simpletodo.util;
 
 import android.content.Context;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 import java.text.ParseException;
@@ -29,5 +31,13 @@ public class Utils {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static Date getTomorrow() {
+        Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH) + 1;
+       return new GregorianCalendar(year, month, day).getTime();
     }
 }

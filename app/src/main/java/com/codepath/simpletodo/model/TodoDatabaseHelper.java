@@ -1,9 +1,10 @@
-package com.codepath.simpletodo;
+package com.codepath.simpletodo.model;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
 import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 
 /**
