@@ -27,7 +27,7 @@ The following **additional** features are implemented:
 
 * [X] List anything else that you can get done to improve the app functionality!
 
-I used cupboard to interface with Sqlite in a clean, simple way.  I used a CursorAdapter for the first time.  I moved my strings into a string.xml resource file and created a Constants and Utils class.  I used a common activity class for both Add and Edit behavior.  I made a clean line item in the list view with priority and due date on the right vertically stacked.  I forced the orientation to remain in portrait mode such since state is not currently maintained across configuration changes.  Organized classes in packages.  Finally, I used a DatePickerDialog fragment per suggested best practices.
+I used cupboard to interface with Sqlite in a clean, simple way.  I used a CursorAdapter.  I moved my strings into a string.xml resource file and created a Constants and Utils class.  I used a common activity class for both Add and Edit behavior.  I made a clean line item in the list view with priority and due date on the right vertically stacked.  I forced the orientation to remain in portrait mode such since state is not currently maintained across configuration changes. I used a DatePickerDialog fragment per suggested best practices.  I added validation dialog displayed on save if there are issues with the inputs.  I used a spinner for priority.
 
 ## Video Walkthrough
 
