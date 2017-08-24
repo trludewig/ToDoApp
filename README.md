@@ -4,7 +4,7 @@
 
 Submitted by: **Tenley Ludewig**
 
-Time spent: **15** hours spent in total
+Time spent: **17** hours spent in total
 
 ## User Stories
 
@@ -33,7 +33,7 @@ I used cupboard to interface with Sqlite in a clean, simple way.  I used a Curso
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='http://i.imgur.com/hMHH35T.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
@@ -43,7 +43,7 @@ As part of your pre-work submission, please reflect on the app and answer the fo
 
 **Question 1:** "What are your reactions to the Android app development platform so far? Compare and contrast Android's approach to layouts and user interfaces in past platforms you've used."
 
-**Answer:** I love it!  In just a few minutes, one can feel a sense of accomplishment and have a little app that works!  Android themes, layouts, and styling remind me of CSS in my past web development.  Both use styling inheritance, leverage different layout patterns such as grid, linear, etc., and either relative or absolute positioning.  Compared to web development, the layouts in Android are much more decoupled from the business logic.  That said, I have not done any serious development in four years, so things may have changed.  
+**Answer:** I love it!  In just a few minutes, one can feel a sense of accomplishment and have a little app that works!  Android themes, layouts, and styling remind me of CSS.  Both use styling inheritance, leverage different layout patterns such as grid, linear, etc., and have relative/absolute positioning.  Android layouts are more decoupled from the business logic relative to most web frameworks I’m familiar with.  
 
 **Question 2:** "Take a moment to reflect on the `ArrayAdapter` used in your pre-work. How would you describe an adapter in this context and what is its function in Android? Why do you think the adapter is important? Explain the purpose of the `convertView` in the `getView` method of the `ArrayAdapter`."
 
